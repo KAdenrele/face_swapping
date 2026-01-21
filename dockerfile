@@ -5,7 +5,9 @@ FROM python:3.11-slim
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    wget \
+    build-essential \
+    cmake \
+    curl \
     ca-certificates \
     libgl1 \
     libxcb1 \
@@ -26,4 +28,3 @@ COPY . .
 VOLUME /data
 
 CMD ["python", "main.py"]
-
