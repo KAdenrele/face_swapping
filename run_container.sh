@@ -1,0 +1,1 @@
+docker build -t face_swapper_app . && docker run --rm --gpus all -v /mnt/data2/test_dataset/curated:/data face_swapper_app

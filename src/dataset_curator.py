@@ -4,6 +4,7 @@ import os
 import random
 import cv2
 import pandas as pd
+from . import config
 
 
 class DatasetCurator:
@@ -77,8 +78,11 @@ class DatasetCurator:
                 ):
                     return os.path.basename(path1), os.path.basename(path2)
 
-    def generate_swap_pairs(self, app, num_per_category=25):
-        """Generates the final list of 100 source/target pairs."""
+    def generate_swap_pairs(self, app, num_per_category=25, save_pairs_list=True):
+        """
+        Generates the final list of 100 source/target pairs.
+        Optionally saves the list to a text file.
+        """
         swap_list = []
 
         # Category 1: Similar Pairs
@@ -128,5 +132,24 @@ class DatasetCurator:
                     "post_process": True,
                 }
             )
+
+        # Add output filenames to the swap list
+        for i, item in enumerate(swap_list):
+            item["output_file"] = f"swapped_{i}.jpg"
+
+        # Save the list of pairs to a text file if requested
+        if save_pairs_list:
+            # Ensure the output directory exists and save the log file there.
+            os.makedirs(config.OUTPUT_DIR, exist_ok=True)
+            pairs_filepath = os.path.join(config.OUTPUT_DIR, "swap_pairs.txt")
+
+            try:
+                with open(pairs_filepath, "w") as f:
+                    f.write("source_file,target_file,output_file\n")
+                    for item in swap_list:
+                        f.write(f"{item['source_file']},{item['target_file']},{item['output_file']}\n")
+                print(f"[INFO] Saved swap pairs list to {pairs_filepath}")
+            except IOError as e:
+                print(f"[WARNING] Could not write swap pairs list to file: {e}")
 
         return swap_list

@@ -27,14 +27,16 @@ def main():
     # 3. Curate the dataset to get 100 pairs
     print("[INFO] Curating the 100 image pairs for swapping...")
     curator = DatasetCurator(face_data_df)
-    swap_list = curator.generate_swap_pairs()
+    swap_list = curator.generate_swap_pairs(
+        face_swapper.app, num_per_category=config.IMAGES_PER_CATEGORY
+    )
 
     # 4. Perform face swapping and save results
     print(f"[INFO] Starting face swap generation for {len(swap_list)} images...")
     os.makedirs(config.OUTPUT_DIR, exist_ok=True)
-    count = 0
+    successful_swaps = 0
 
-    for item in tqdm(swap_list, desc="Generating Swapped Images"):
+    for item in tqdm(swap_list, desc="Generating Swapped Images", unit="image"):
         source_path = os.path.join(config.INPUT_IMAGE_DIR, item["source_file"])
         target_path = os.path.join(config.INPUT_IMAGE_DIR, item["target_file"])
 
@@ -66,12 +68,12 @@ def main():
             swapped_image = apply_postprocessing(swapped_image)
 
         # Save the result
-        output_filename = os.path.join(config.OUTPUT_DIR, f"swapped_{count}.jpg")
+        output_filename = os.path.join(config.OUTPUT_DIR, item["output_file"])
         cv2.imwrite(output_filename, swapped_image)
-        count += 1
+        successful_swaps += 1
 
     print(
-        f"\n[INFO] Successfully generated {count} face-swapped images in '{config.OUTPUT_DIR}'."
+        f"\n[INFO] Successfully generated {successful_swaps} face-swapped images in '{config.OUTPUT_DIR}'."
     )
     print("[INFO] Pipeline finished.")
 
