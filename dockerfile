@@ -19,8 +19,6 @@ COPY pyproject.toml uv.lock ./
 # --no-cache: keeps the image size small
 RUN uv sync --frozen --no-cache
 
-# Install dependencies for dataset downloading
-RUN uv pip install datasets==2.19.0 Pillow==10.3.0 pyarrow==16.1.0
 ENV PATH="/app/.venv/bin:$PATH"
 
 COPY . .
