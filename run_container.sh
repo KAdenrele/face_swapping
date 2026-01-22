@@ -1,1 +1,1 @@
-docker build -t face_swapper_app . && docker run --rm --gpus all -v /mnt/data2/test_dataset/raw/:/data face_swapper_app
+docker build -t face_swapper_app . && docker run --gpus all -v /mnt/data2/test_dataset/raw/:/data face_swapper_app

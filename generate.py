@@ -25,7 +25,7 @@ def main():
     face_data_df = data_manager.analyze_faces(face_swapper.app)
 
     # 3. Curate the dataset to get 100 pairs
-    print("[INFO] Curating the 100 image pairs for swapping...")
+    print(f"[INFO] Curating the {4 * config.IMAGES_PER_CATEGORY} image pairs for swapping...")
     curator = DatasetCurator(face_data_df)
     swap_list = curator.generate_swap_pairs(
         face_swapper.app, num_per_category=config.IMAGES_PER_CATEGORY

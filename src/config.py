@@ -2,7 +2,7 @@
 
 # --- File Paths and Directories ---
 INPUT_IMAGE_DIR = "data/input_images"
-OUTPUT_DIR = "data/inswapper_images"
+OUTPUT_DIR = "/data/inswapper_images"
 MODEL_DIR = "models"
 SWAPPER_MODEL_PATH = f"{MODEL_DIR}/inswapper_128.onnx"
 
